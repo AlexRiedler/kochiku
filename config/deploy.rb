@@ -3,8 +3,8 @@
 lock '3.2.1'
 
 set :application, "Kochiku"
-set :repo_url, "https://github.com/square/kochiku.git"
-set :user, "kochiku"
+set :repo_url, "https://github.com/AlexRiedler/kochiku.git"
+set :user, "root"
 
 ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }
 
@@ -20,6 +20,12 @@ ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }
 set :deploy_to, "/app/#{fetch(:user)}/kochiku"
 set :deploy_via, :remote_cache
 set :linked_dirs, %w{log}
+
+set :rbenv_type, :user # or :system, depends on your rbenv setup
+set :rbenv_ruby, File.read('.ruby-version').strip # set ruby version from the file:
+# set :rbenv_prefix, "RBENV_ROOT=#{fetch(:rbenv_path)} RBENV_VERSION=#{fetch(:rbenv_ruby)} #{fetch(:rbenv_path)}/bin/rbenv exec"
+set :rbenv_map_bins, %w{rake gem bundle ruby rails}
+set :rbenv_roles, :all # default value
 
 # Reference Capistrano's flow diagram for help choosing hooks
 # http://capistranorb.com/documentation/getting-started/flow/
